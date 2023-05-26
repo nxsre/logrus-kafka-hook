@@ -15,7 +15,7 @@ func ExampleNew() {
 	}
 	// use DefaultFormatter to create a JSONFormatter with pre-defined fields or override with any fields
 	// create the Hook and use the builder functions to apply configurations
-	hook := logkafka.New().WithFormatter(
+	hook := logkafka.NewHook().WithFormatter(
 		logkafka.DefaultFormatter(logrus.Fields{"type": "myappName"})).WithProducer(producer)
 
 	// create a new logger and add the hook

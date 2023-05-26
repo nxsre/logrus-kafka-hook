@@ -2,9 +2,11 @@ package logkafka
 
 import (
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/Shopify/sarama"
+	"github.com/jinzhu/copier"
 	"github.com/sirupsen/logrus"
 )
 
@@ -16,20 +18,28 @@ type Hook struct {
 	topic     string
 }
 
-// New creates a new logrus hook for Kafka.
+// NewHook creates a new logrus hook for Kafka.
 //
 // Defaults:
 //
-//		Formatter: *logrus.TextFormatter*
-//		Levels: *logrus.AllLevels*
-//		Topic: *"logs"*
-//
-func New() *Hook {
+//	Formatter: *logrus.TextFormatter*
+//	Levels: *logrus.AllLevels*
+//	Topic: *"logs"*
+func NewHook() *Hook {
 	return &Hook{
 		formatter: new(logrus.TextFormatter),
 		levels:    logrus.AllLevels,
 		topic:     "logs",
 	}
+}
+
+func NewLogger(hook *Hook) *logrus.Logger {
+	var newHook = &Hook{}
+	copier.Copy(newHook, hook)
+	logger := logrus.New()
+	logger.Hooks.Add(newHook)
+	logger.SetOutput(io.Discard)
+	return logger
 }
 
 // WithFormatter adds a formatter to the created Hook.

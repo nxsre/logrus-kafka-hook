@@ -65,7 +65,7 @@ func (f simpleFmter) Format(e *logrus.Entry) ([]byte, error) {
 func TestFire(t *testing.T) {
 	trm := newTestReporterMock()
 
-	h := New().WithFormatter(simpleFmter{}).WithProducer(makeProducer(trm, makeValueChecker(mockData))).WithTopic("success")
+	h := NewHook().WithFormatter(simpleFmter{}).WithProducer(makeProducer(trm, makeValueChecker(mockData))).WithTopic("success")
 
 	entry := &logrus.Entry{
 		Message: string(mockData),
@@ -86,7 +86,7 @@ func TestFire(t *testing.T) {
 }
 
 func TestFire_NoProducer(t *testing.T) {
-	h := New()
+	h := NewHook()
 
 	entry := &logrus.Entry{
 		Message: string(mockData),
@@ -108,7 +108,7 @@ func (f failFmt) Format(e *logrus.Entry) ([]byte, error) {
 }
 
 func TestFire_FormatError(t *testing.T) {
-	h := New().WithFormatter(failFmt{})
+	h := NewHook().WithFormatter(failFmt{})
 
 	entry := &logrus.Entry{
 		Message: string(mockData),
@@ -126,7 +126,7 @@ func TestFire_PublishError(t *testing.T) {
 	trm := newTestReporterMock()
 
 	wantErr := errors.New("failed to publish message")
-	h := New().WithProducer(makeErrorProducer(trm, makeErrorValueChecker(wantErr), wantErr)).WithTopic("failure")
+	h := NewHook().WithProducer(makeErrorProducer(trm, makeErrorValueChecker(wantErr), wantErr)).WithTopic("failure")
 
 	entry := &logrus.Entry{
 		Message: string(mockData),
@@ -147,15 +147,15 @@ func TestFire_PublishError(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
-	if h := New(); h == nil {
-		t.Error("New() Expected non-nil value")
+	if h := NewHook(); h == nil {
+		t.Error("NewHook() Expected non-nil value")
 	}
 }
 
 func TestNew_With(t *testing.T) {
-	h := New()
+	h := NewHook()
 	if h.topic != "logs" {
-		t.Errorf("New() want: logs got: %v", h.topic)
+		t.Errorf("NewHook() want: logs got: %v", h.topic)
 	}
 
 	levels := []logrus.Level{logrus.ErrorLevel}
@@ -163,7 +163,7 @@ func TestNew_With(t *testing.T) {
 	oh := h.WithFormatter(simpleFmter{}).WithTopic("other").WithLevels(levels)
 
 	if oh.topic != "other" {
-		t.Errorf("New() want: other got: %v", h.topic)
+		t.Errorf("NewHook() want: other got: %v", h.topic)
 	}
 
 	if !reflect.DeepEqual(oh.Levels(), levels) {
@@ -171,6 +171,6 @@ func TestNew_With(t *testing.T) {
 	}
 
 	if oh.producer != nil {
-		t.Error("New() expected producer to be nil by default")
+		t.Error("NewHook() expected producer to be nil by default")
 	}
 }

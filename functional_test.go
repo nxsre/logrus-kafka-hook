@@ -73,7 +73,7 @@ func Test_EntryPublish(t *testing.T) {
 
 	trm := newTestReporterMock()
 	pr := makeProducer(trm, nil)
-	h := logkafka.New().WithFormatter(logkafka.DefaultFormatter(logrus.Fields{"NICKNAME": ""})).WithProducer(pr)
+	h := logkafka.NewHook().WithFormatter(logkafka.DefaultFormatter(logrus.Fields{"NICKNAME": ""})).WithProducer(pr)
 
 	log.Hooks.Add(h)
 
@@ -97,7 +97,7 @@ func Test_EntryWithLevels(t *testing.T) {
 
 	trm := newTestReporterMock()
 	pr := makeProducer(trm, makeValueChecker(mockData))
-	h := logkafka.New().WithLevels(warnLevels).WithFormatter(simpleFmter{}).WithProducer(pr)
+	h := logkafka.NewHook().WithLevels(warnLevels).WithFormatter(simpleFmter{}).WithProducer(pr)
 	log.Hooks.Add(h)
 
 	log.Debug(string(mockData))
