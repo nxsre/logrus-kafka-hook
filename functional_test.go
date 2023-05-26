@@ -10,7 +10,7 @@ import (
 	"github.com/Shopify/sarama/mocks"
 	"github.com/sirupsen/logrus"
 
-	logkafka "github.com/kenjones-cisco/logrus-kafka-hook"
+	logkafka "github.com/nxsre/logrus-kafka-hook"
 )
 
 var (

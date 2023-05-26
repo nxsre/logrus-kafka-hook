@@ -4,7 +4,7 @@ SHELL := /bin/bash
 .DEFAULT_GOAL := help
 
 PROJECT = logrus-kafka-hook
-export IMPORT_PATH = github.com/kenjones-cisco/logrus-kafka-hook
+export IMPORT_PATH = github.com/nxsre/logrus-kafka-hook
 
 # Windows environment?
 CYG_CHECK := $(shell hash cygpath 2>/dev/null && echo 1)

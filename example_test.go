@@ -4,7 +4,7 @@ import (
 	"github.com/Shopify/sarama"
 	"github.com/sirupsen/logrus"
 
-	logkafka "github.com/kenjones-cisco/logrus-kafka-hook"
+	logkafka "github.com/nxsre/logrus-kafka-hook"
 )
 
 func ExampleNew() {
