@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/Shopify/sarama"
+	"github.com/IBM/sarama"
 	"github.com/jinzhu/copier"
 	"github.com/sirupsen/logrus"
 )
